@@ -1257,10 +1257,11 @@ EFI_STATUS init_grub(EFI_HANDLE image_handle)
 					 use_fb ? FALLBACK : second_stage);
 	}
 
-	// If the filename is invalid, or the file does not exist,
-	// just fallback to the default loader.
+	// If the filename is invalid, the file does not exist, or access is
+	// denied, just fallback to the default loader.
 	if (!use_fb && (efi_status == EFI_INVALID_PARAMETER ||
-	                efi_status == EFI_NOT_FOUND)) {
+	                efi_status == EFI_NOT_FOUND ||
+			efi_status == EFI_ACCESS_DENIED)) {
 		console_print(
 			L"start_image() returned %r, falling back to default loader\n",
 			efi_status);
